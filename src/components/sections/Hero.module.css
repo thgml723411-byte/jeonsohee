@@ -1,0 +1,100 @@
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--header-h) max(24px, 9vw) 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+/* ───────── 배경 — Aperture Light (WebGL) ───────── */
+.aperture {
+  z-index: 0;
+}
+
+/* ───────── 텍스트 ───────── */
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 860px;
+}
+
+.content > * {
+  animation: rise 1s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+.overline {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: var(--silver);
+  animation-delay: 0.5s;
+}
+
+.name {
+  margin: 0.5rem 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3rem, 11vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  background: linear-gradient(180deg, #ffffff 10%, #9ea4ad 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 60px rgba(199, 203, 209, 0.25);
+  animation-delay: 0.7s;
+}
+
+.role {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  letter-spacing: 0.1em;
+  color: var(--paper);
+  animation-delay: 0.9s;
+}
+
+.tagline {
+  margin-top: 1.2rem;
+  font-family: var(--font-serif), serif;
+  font-size: clamp(1.05rem, 2.2vw, 1.4rem);
+  color: var(--muted);
+  animation-delay: 1.1s;
+}
+
+.scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  transform: translateX(-50%);
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.scroll span {
+  animation: bounce 1.6s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  50% {
+    transform: translateY(6px);
+  }
+}

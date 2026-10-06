@@ -1,0 +1,355 @@
+.ticket {
+  color: var(--ink);
+  filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.5));
+  transition: transform 0.3s ease;
+}
+
+.ticket:hover {
+  transform: translateY(-6px) rotate(-0.6deg);
+}
+
+/* ───────── 3D 뒤집기 ───────── */
+.inner {
+  display: grid;
+  min-height: 240px;
+  transform: perspective(1200px) rotateY(0deg);
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.625, 0.05, 0, 1);
+}
+
+.ticket[data-flipped="true"] .inner {
+  transform: perspective(1200px) rotateY(180deg);
+}
+
+/* 앞·뒷면을 같은 칸에 겹쳐 높이를 공유 */
+.front,
+.back {
+  grid-area: 1 / 1;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.front {
+  display: flex;
+}
+
+.back {
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1.5rem 1.2rem;
+  border-radius: 6px;
+  color: var(--silver-soft);
+  background:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 9px),
+    linear-gradient(160deg, var(--velvet), var(--velvet-deep));
+  border: 1px solid rgba(238, 240, 243, 0.25);
+}
+
+/* ───────── 절취선 홈(반원) ───────── */
+.slot,
+.body {
+  --notch: radial-gradient(circle at var(--nx) 0, transparent 10px, #000 10.5px) top / 100% 51% no-repeat,
+    radial-gradient(circle at var(--nx) 100%, transparent 10px, #000 10.5px) bottom / 100% 51% no-repeat;
+}
+
+.body {
+  --nx: 0%;
+  -webkit-mask: var(--notch);
+  mask: var(--notch);
+}
+
+/* stub 자리: 뜯기 전엔 stub가, 뜯은 뒤엔 입장 링크가 보임 */
+.slot {
+  --nx: 100%;
+  position: relative;
+  flex: 0 0 76px;
+}
+
+.stub {
+  --tilt: 0deg;
+  --dx: 0px;
+  --dy: 0px;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 0;
+  border: 0;
+  border-right: 2px dashed rgba(245, 236, 220, 0.35);
+  border-radius: 6px 0 0 6px;
+  background: linear-gradient(180deg, var(--velvet), var(--velvet-deep));
+  color: var(--silver-soft);
+  font: inherit;
+  cursor: grab;
+  touch-action: none; /* 모바일에서 끌 때 화면이 스크롤되지 않게 */
+  -webkit-mask: var(--notch);
+  mask: var(--notch);
+  /* 절취선 위쪽 끝을 축으로 꺾임 */
+  transform-origin: 100% 0;
+  transform: translate(var(--dx), var(--dy)) rotate(var(--tilt));
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.stub[data-dragging="true"] {
+  cursor: grabbing;
+  transition: none;
+}
+
+.stub:disabled {
+  cursor: default;
+}
+
+.ticket:not([data-torn="true"]) .stub:not(:disabled):hover {
+  --tilt: -4deg;
+}
+
+/* 뜯기면 떨어지며 사라짐 */
+.ticket[data-torn="true"] .stub {
+  pointer-events: none;
+  animation: tearOff 0.7s cubic-bezier(0.55, 0, 0.75, 0.3) forwards;
+}
+
+@keyframes tearOff {
+  0% {
+    transform: rotate(-12deg);
+  }
+  25% {
+    transform: translate(-6px, 4px) rotate(-22deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-30px, 140px) rotate(-48deg);
+    opacity: 0;
+  }
+}
+
+.admit {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-display), serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+.no {
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.period {
+  font-size: 0.68rem;
+  opacity: 0.8;
+}
+
+/* stub 아래 숨은 입장 링크 — 뜯긴 자국처럼 들쭉날쭉한 오른쪽 가장자리 */
+.entry {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: 6px 0 0 6px;
+  background: linear-gradient(180deg, rgba(74, 7, 14, 0.75), rgba(36, 23, 15, 0.75));
+  -webkit-mask: var(--notch);
+  mask: var(--notch);
+  opacity: 0;
+  transition: opacity 0.3s ease 0.35s;
+}
+
+.ticket[data-torn="true"] .entry {
+  opacity: 1;
+}
+
+.enter {
+  writing-mode: vertical-rl;
+  font-family: var(--font-display), serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--silver-soft);
+  padding: 0.6rem 0.4rem;
+  border: 1px solid rgba(238, 240, 243, 0.5);
+  border-radius: 999px;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.enter:hover,
+.enter:focus-visible {
+  background: var(--silver-soft);
+  color: var(--velvet-deep);
+}
+
+.reset {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--silver);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.reset:hover {
+  color: var(--silver-soft);
+}
+
+.soon {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+}
+
+/* ───────── 앞면 본문 ───────── */
+.body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1.4rem 1.2rem;
+  background:
+    linear-gradient(0deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0)),
+    #e7e8eb;
+  border-radius: 0 6px 6px 0;
+}
+
+.category {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  color: var(--velvet);
+}
+
+.title {
+  font-family: var(--font-serif), serif;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin: 0.3rem 0 0.6rem;
+}
+
+.desc {
+  font-size: 0.88rem;
+  color: #4a3b30;
+}
+
+.tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 0.6rem;
+  margin: 0.8rem 0 1rem;
+  font-size: 0.75rem;
+  color: var(--brown);
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.hint {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  color: #8d8a87;
+}
+
+.flip {
+  padding: 0.35rem 0.8rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--velvet);
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.body .flip:hover {
+  background: var(--velvet);
+  color: var(--silver-soft);
+}
+
+/* ───────── 뒷면 내용 ───────── */
+.backHead {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px dashed rgba(238, 240, 243, 0.35);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  color: var(--silver);
+}
+
+.back .title {
+  color: var(--silver-soft);
+}
+
+.features {
+  list-style: none;
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: rgba(238, 240, 243, 0.85);
+}
+
+.features li::before {
+  content: "✦ ";
+  color: var(--silver);
+  font-size: 0.7rem;
+}
+
+.visit {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--silver-soft);
+  border-bottom: 1px solid currentColor;
+}
+
+.back .flip {
+  color: var(--silver-soft);
+}
+
+.back .flip:hover {
+  background: var(--silver-soft);
+  color: var(--velvet-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .inner,
+  .stub {
+    transition: none;
+  }
+  .ticket[data-torn="true"] .stub {
+    animation: none;
+    opacity: 0;
+  }
+}

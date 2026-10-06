@@ -1,0 +1,24 @@
+/* 티켓 2열 그리드 — 한 줄에 2장씩 */
+.track {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 420px));
+  justify-content: center;
+  gap: 1.6rem 2rem;
+  padding: 0.5rem 0 1rem;
+}
+
+.tip {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+}
+
+/* 좁은 화면은 1열 */
+@media (max-width: 760px) {
+  .track {
+    grid-template-columns: minmax(0, 420px);
+  }
+}

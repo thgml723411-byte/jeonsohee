@@ -1,0 +1,21 @@
+.spotlight {
+  --mx: 50vw;
+  --my: 40vh;
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: radial-gradient(
+    circle 28vmax at var(--mx) var(--my),
+    rgba(220, 228, 240, 0.1),
+    rgba(220, 228, 240, 0.03) 45%,
+    transparent 70%
+  );
+  mix-blend-mode: screen;
+}
+
+@media (hover: none) {
+  .spotlight {
+    display: none;
+  }
+}

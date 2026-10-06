@@ -1,0 +1,78 @@
+/* 빛의 반지름을 애니메이션하려면 타입을 등록해야 함 (안 하면 transition이 안 먹음) */
+@property --radius {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+.mask {
+  --mouse-x: 50%;
+  --mouse-y: 50%;
+  --radius: 0px;
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none; /* 클릭은 아래 콘텐츠로 통과 */
+  background-color: rgba(3, 3, 3, 0.97);
+  /* 원본은 mask-image 30px / -webkit-mask-image 300px로 달랐음 → 하나로 통일 */
+  -webkit-mask-image: radial-gradient(
+    circle var(--radius) at var(--mouse-x) var(--mouse-y),
+    transparent 0%,
+    transparent 50%,
+    black 100%
+  );
+  mask-image: radial-gradient(
+    circle var(--radius) at var(--mouse-x) var(--mouse-y),
+    transparent 0%,
+    transparent 50%,
+    black 100%
+  );
+  transition: --radius 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 마우스가 섹션에 들어오면 빛이 켜지며 커짐, 나가면 꺼짐 */
+.mask[data-lit="true"] {
+  --radius: 300px;
+}
+
+.hint {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  color: var(--silver);
+  white-space: nowrap;
+  animation: blink 2.4s ease-in-out infinite;
+  transition: opacity 0.4s ease;
+}
+
+.mask[data-lit="true"] .hint {
+  opacity: 0;
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* 터치 기기는 마우스가 없어 영영 어두우므로 효과를 끔 */
+@media (hover: none) {
+  .mask {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mask {
+    transition: none;
+  }
+  .hint {
+    animation: none;
+  }
+}

@@ -1,0 +1,319 @@
+/* BUREAU Mono Square — Filip's own typeface, embedded for a portable Pen. */
+@font-face {
+  font-family: "BUREAU Mono Square";
+  src: url(data:font/woff2;base64,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)
+    format("woff2");
+  font-display: swap;
+}
+/* The house motion contract — every DOM/UI transition in the lab draws its
+   curve and its duration from here.
+
+   WHY THIS FILE EXISTS. Before it, `src` carried 50 distinct cubic-bezier
+   curves and 73 distinct transition durations across 176 stylesheets. None of
+   them were wrong individually; together they meant no two surfaces moved the
+   same way, and every new page re-invented its motion from scratch. Prose in
+   `taste/` could not fix that — a written rule gets re-interpreted every
+   session, a token does not. This is the same move `src/buttons/tokens.css`
+   already made for one shelf, generalised.
+
+   The values are NOT invented. Each curve below is the one the repo already
+   reached for most often, promoted to a name.
+
+   SCOPE — this governs the DOM/UI layer only: chrome, panels, HUD rows, page
+   transitions, anything the pointer touches. It does NOT govern the 3D canvas.
+   Cinematic hero motion (scroll-bound camera arcs, ambient drift, shader time)
+   is deliberately slow and stays on its own clock — see taste/vibe.md,
+   "Motion default", which draws exactly that boundary: snappy for what the
+   user touches, slow for ambient hero motion.
+
+   Enforced by `npm run design:check`. */
+
+:root {
+  /* ---- Easing -------------------------------------------------------------
+     Four curves, chosen by what the animation IS doing, not by taste. The
+     decision table lives in .claude/skills/interface-motion/SKILL.md; it is
+     Emil Kowalski's, and it is not a preference — pick by category. */
+
+  /* Enters and exits. Accelerates immediately, so the UI feels like it
+     answered before it finished moving. easeOutQuint — already the repo's
+     dominant curve (64 uses) before it had a name. */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Something already on screen moving to a new place. Eases both ends so the
+     element reads as travelling rather than appearing. Promoted from
+     src/buttons/tokens.css, where it is the Button Lab house curve. */
+  --ease-in-out: cubic-bezier(0.625, 0.05, 0, 1);
+
+  /* Hover and other reversible state changes. Gentler than --ease-out because
+     it gets interrupted constantly and must look right played backwards. */
+  --ease-hover: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Continuous motion — marquees, spinners, anything looping. Any eased curve
+     visibly stutters at the loop seam. */
+  --ease-linear: linear;
+
+  /* ---- Duration -----------------------------------------------------------
+     Ceiling is 300ms for anything the pointer touches. Past that a UI stops
+     feeling responsive and starts feeling like it is playing back. Ambient
+     canvas motion is exempt and does not use these. */
+
+  --dur-instant: 0ms; /* repeated / keyboard-driven actions: do not animate */
+  --dur-micro: 120ms; /* press, checkbox, toggle, icon swap */
+  --dur-fast: 180ms; /* hover, focus ring, tooltip, small reveal */
+  --dur-base: 220ms; /* the default — dropdown, popover, row expand */
+  --dur-slow: 300ms; /* modal, drawer, sheet, page-level transition. The cap. */
+
+  /* ---- Press ---------------------------------------------------------------
+     Scale feedback on :active. Never animate a UI element from scale(0) — a
+     deflated balloon still has a shape. 0.9 is the floor for an element
+     entering; 0.97 is the press. */
+  --press-scale: 0.97;
+  --enter-scale: 0.94;
+}
+
+/* ---- Reduced motion -------------------------------------------------------
+   Collapse the DURATION SCALE, not the motion. Every surface that draws its
+   timing from `--dur-*` becomes instant here without any of them being edited,
+   and the end state is still reached — a 0ms transition still applies its
+   final value, so nothing is left half-open or invisible.
+
+   This is deliberately NOT the `*{animation:none!important}` kill switch. Per
+   .claude/skills/interface-motion: reduced motion is per surface, so a piece
+   can keep the motion that carries meaning and drop the motion that is
+   decoration. Collapsing the tokens removes the decoration; a surface with
+   motion that MEANS something still hard-codes its own timing and still owes
+   its own `@media (prefers-reduced-motion: reduce)` rule saying what it keeps.
+
+   Easing tokens are untouched: at 0ms a curve has nothing to shape, and
+   leaving them defined keeps any surface that reads one from breaking.
+
+   Scope, as everywhere in this file: the DOM/UI layer. The 3D canvas keeps its
+   own clock and gates in JS via prefersReducedMotion() in src/lib/scroll.ts. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-micro: 0ms;
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+    /* Press/enter scale is a 1-frame acknowledgement, not travel — but it is
+       still movement, so it goes flat rather than small. */
+    --press-scale: 1;
+    --enter-scale: 1;
+  }
+}
+
+.aperture-light {
+  --aperture-bg: black;
+  --aperture-fg: white;
+  --aperture-muted: rgb(204 204 204);
+}
+.aperture-light {
+  position: absolute;
+  inset: 0;
+  background: var(--aperture-bg);
+  color: var(--aperture-fg);
+}
+
+.aperture-light__canvas {
+  position: absolute;
+  inset: 0;
+}
+
+body:has(.aperture-light[data-clean="true"]) .experiment-back-link {
+  display: none;
+}
+
+.aperture-light__controls {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(640px, calc(100% - 48px));
+  padding: 8px 16px;
+  background: color-mix(in srgb, var(--aperture-bg) 92%, transparent);
+  font-family: "BUREAU Mono Square", monospace;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+
+.aperture-light__controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-shrink: 0;
+  height: 44px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--aperture-fg);
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-hover),
+    transform var(--dur-micro) var(--ease-out);
+}
+
+.aperture-light__controls button:active {
+  transform: scale(var(--press-scale));
+}
+.aperture-light__controls button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+.aperture-light__toggle {
+  min-width: 88px;
+}
+.aperture-light__controls .aperture-light__replay {
+  width: 44px;
+  margin-left: -12px;
+  color: var(--aperture-muted);
+}
+.aperture-light__toggle[data-playing="true"] .aperture-light__play-icon,
+.aperture-light__toggle[data-playing="true"] .aperture-light__play-label,
+.aperture-light__toggle[data-playing="false"] .aperture-light__pause-icon,
+.aperture-light__toggle[data-playing="false"] .aperture-light__pause-label {
+  display: none;
+}
+
+.aperture-light__timeline {
+  position: relative;
+  flex: 1;
+  min-width: 60px;
+  height: 44px;
+}
+.aperture-light__rail {
+  position: absolute;
+  inset: 21px 2px auto;
+  height: 1px;
+  background: color-mix(in srgb, var(--aperture-fg) 24%, transparent);
+}
+.aperture-light__rail > span {
+  display: block;
+  width: var(--progress, 0%);
+  height: 100%;
+  background: var(--aperture-fg);
+}
+.aperture-light__ticks {
+  position: absolute;
+  inset: 28px 2px auto;
+  height: 5px;
+  background: repeating-linear-gradient(
+    to right,
+    color-mix(in srgb, var(--aperture-fg) 22%, transparent) 0 1px,
+    transparent 1px calc(100% / 28)
+  );
+  pointer-events: none;
+}
+.aperture-light__timeline input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  cursor: ew-resize;
+  accent-color: var(--aperture-fg);
+}
+.aperture-light__timeline input::-webkit-slider-runnable-track {
+  height: 2px;
+  background: transparent;
+}
+.aperture-light__timeline input::-moz-range-track {
+  height: 2px;
+  background: transparent;
+}
+.aperture-light__timeline input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 4px;
+  height: 14px;
+  margin-top: -6px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--aperture-fg);
+}
+.aperture-light__timeline input::-moz-range-thumb {
+  width: 4px;
+  height: 14px;
+  border: 0;
+  border-radius: 2px;
+  background: var(--aperture-fg);
+}
+.aperture-light__controls button:focus-visible,
+.aperture-light__timeline input:focus-visible {
+  outline: 1px solid var(--aperture-fg);
+  outline-offset: 3px;
+}
+.aperture-light__time {
+  display: grid;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: 84px;
+  text-align: right;
+}
+.aperture-light__time output {
+  color: var(--aperture-fg);
+}
+.aperture-light__time > span {
+  color: var(--aperture-muted);
+  font-size: 9px;
+}
+
+@media (hover: hover) {
+  .aperture-light__controls button:hover {
+    background: color-mix(in srgb, var(--aperture-fg) 8%, transparent);
+  }
+  .aperture-light__timeline:hover .aperture-light__ticks {
+    opacity: 0.7;
+  }
+}
+@media (max-width: 600px) {
+  .aperture-light__controls {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    width: calc(100% - 32px);
+    gap: 8px;
+    padding-inline: 8px;
+  }
+  body:has(.experiment-back-link) .aperture-light__controls {
+    bottom: max(80px, calc(env(safe-area-inset-bottom) + 64px));
+  }
+  .aperture-light__controls .aperture-light__replay {
+    margin-left: 0;
+  }
+  .aperture-light__toggle {
+    min-width: 44px;
+  }
+  .aperture-light__play-label,
+  .aperture-light__pause-label {
+    display: none;
+  }
+  .aperture-light__time {
+    min-width: 76px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .aperture-light__controls button {
+    transition: none;
+  }
+}
+
+.aperture-light__controls[hidden] {
+  display: none;
+}

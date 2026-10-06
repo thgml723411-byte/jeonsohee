@@ -1,0 +1,123 @@
+/* DarkReveal(손전등 마스크)이 이 섹션 크기만큼 덮도록 */
+.stage {
+  position: relative;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) 1fr;
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: center;
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.portraitWrap {
+  justify-self: center;
+  width: 100%;
+}
+
+/* 금박 액자 */
+.portrait {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 10px solid transparent;
+  border-image: linear-gradient(135deg, #f4f5f7, #8d939b 40%, #e3e6ea 60%, #5f646b) 1;
+  background: radial-gradient(circle at 50% 30%, #3a1616, #0d0a0a 75%);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.6),
+    0 30px 60px rgba(0, 0, 0, 0.55);
+  cursor: default;
+}
+
+.portrait img {
+  object-fit: cover;
+  /* 사진 위쪽 여백(벽)을 잘라내기 — 아래를 기준으로 키워 위쪽 약 23%가 액자 밖으로 */
+  transform: scale(1.3);
+  transform-origin: 50% 100%;
+}
+
+.initial {
+  font-family: var(--font-display), serif;
+  font-size: 9rem;
+  font-style: italic;
+  color: var(--silver);
+  opacity: 0.8;
+}
+
+.plate {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  padding: 0.25rem 1rem;
+  font-family: var(--font-serif), serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  color: var(--ink);
+  background: linear-gradient(180deg, var(--silver-soft), var(--silver));
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.lead {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(1.3rem, 2.6vw, 1.8rem);
+  line-height: 1.5;
+  color: var(--paper);
+  margin-bottom: 1.2rem;
+}
+
+.body {
+  color: var(--muted);
+  margin-bottom: 0.6rem;
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem 2rem;
+  margin: 2rem 0;
+  padding: 1.4rem 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.fact dt {
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--brown-light);
+}
+
+.fact dd {
+  color: var(--paper);
+}
+
+.quote {
+  font-family: var(--font-serif), serif;
+  font-size: 1.05rem;
+  color: var(--silver-soft);
+  padding-left: 1rem;
+  border-left: 2px solid var(--silver);
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+  .portraitWrap {
+    max-width: 260px;
+  }
+}
+
+@media (max-width: 480px) {
+  .facts {
+    grid-template-columns: 1fr;
+  }
+}
