@@ -1,57 +1,52 @@
 import Image from "next/image";
 import { profile } from "@/data/profile";
 import Reveal from "@/components/common/Reveal";
-import Section from "@/components/common/Section";
-import DarkReveal from "@/components/common/DarkReveal";
+import ParticleLabel from "@/components/particle-text/ParticleLabel";
+import SectionParticles from "@/components/particle-text/SectionParticles";
+import PileOfHearts from "@/components/pile-of-hearts/PileOfHearts";
+import { getAct } from "@/data/acts";
+import portrait from "../../../public/images/profile-cutout.png";
 import styles from "./Profile.module.css";
 
 /** Act I — The Performer : 프로필 소개 */
 export default function Profile() {
+  const act = getAct("performer");
+
   return (
-    <Section id="performer" className={styles.stage}>
-      <div className={styles.grid}>
-        <Reveal className={styles.portraitWrap}>
-          <figure className={styles.portrait}>
-            {profile.photo ? (
-              <Image src={profile.photo} alt={profile.name} fill sizes="(max-width: 860px) 70vw, 340px" />
-            ) : (
-              <span className={styles.initial} aria-hidden>
-                {profile.nameEn.charAt(0)}
-              </span>
-            )}
-            <figcaption className={styles.plate}>{profile.name}</figcaption>
-          </figure>
-        </Reveal>
+    <section id="performer" className={styles.stage} aria-labelledby="performer-title">
+      <SectionParticles />
+      <Reveal className={styles.heading}>
+        <p className={styles.act}><ParticleLabel text={act.act} /></p>
+        <h2 id="performer-title" className={styles.title}><ParticleLabel text={act.title} /></h2>
+      </Reveal>
 
-        <div className={styles.text}>
-          <Reveal delay={150}>
-            <p className={styles.lead}>{profile.tagline}</p>
-            {profile.intro.map((p) => (
-              <p key={p} className={styles.body}>
-                {p}
-              </p>
-            ))}
-          </Reveal>
+      <Reveal className={styles.composition}>
+        <figure className={styles.portrait}>
+          <PileOfHearts />
+          <Image
+            src={portrait}
+            alt={`${profile.name}, 발레 의상을 입은 프로필 사진`}
+            sizes="(max-width: 600px) 72vw, (max-width: 1100px) 42vw, 520px"
+          />
+        </figure>
 
-          <Reveal delay={300}>
-            <dl className={styles.facts}>
-              {profile.facts.map((f) => (
-                <div key={f.label} className={styles.fact}>
-                  <dt>{f.label}</dt>
-                  <dd>{f.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
+        <p className={styles.identity}><ParticleLabel text={`${profile.name} · ${profile.role}`} /></p>
+        <p className={styles.lead}><ParticleLabel text={profile.tagline} /></p>
+        {profile.intro.map((p) => (
+          <p key={p} className={styles.body}><ParticleLabel text={p} /></p>
+        ))}
 
-          <Reveal delay={450}>
-            <blockquote className={styles.quote}>“{profile.quote}”</blockquote>
-          </Reveal>
-        </div>
-      </div>
+        <dl className={styles.facts}>
+          {profile.facts.map((f) => (
+            <div key={f.label} className={styles.fact}>
+              <dt><ParticleLabel text={f.label} /></dt>
+              <dd><ParticleLabel text={f.value} /></dd>
+            </div>
+          ))}
+        </dl>
 
-      {/* 손전등 효과 — 어둠 속에서 배우(나)를 찾아내는 연출 */}
-      <DarkReveal hint="빛을 비춰 배우를 찾아보세요" />
-    </Section>
+        <blockquote className={styles.quote}><ParticleLabel text={`“${profile.quote}”`} /></blockquote>
+      </Reveal>
+    </section>
   );
 }

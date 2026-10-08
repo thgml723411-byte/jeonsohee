@@ -8,10 +8,10 @@ const TEAR_DISTANCE = 70; // 이만큼(px) 끌어당기면 뜯어짐
 
 /**
  * 공연 티켓 한 장.
- * - 왼쪽 절취선(stub)을 끌어당기거나 클릭하면 뜯어지고, 그 자리에 "입장" 링크가 나타남
- * - "뒷면 보기"를 누르면 3D로 뒤집혀 주요 기능을 보여줌
+ * - 앞면의 "사이트 보기"로 작품에 바로 방문
+ * - 절취선 뜯기와 3D 뒤집기로 공연 티켓을 체험
  */
-export default function Ticket({ work }: { work: Work }) {
+export default function Ticket({ work, interactive = true }: { work: Work; interactive?: boolean }) {
   const [flipped, setFlipped] = useState(false);
   const [torn, setTorn] = useState(false);
   const [drag, setDrag] = useState({ x: 0, y: 0 });
@@ -48,7 +48,7 @@ export default function Ticket({ work }: { work: Work }) {
   } as CSSProperties;
 
   return (
-    <li className={styles.ticket} data-flipped={flipped} data-torn={torn}>
+    <article className={styles.ticket} data-flipped={flipped} data-torn={torn} inert={!interactive} aria-hidden={!interactive || undefined}>
       <div className={styles.inner}>
         {/* ───────── 앞면 ───────── */}
         <div className={styles.front} inert={flipped}>
@@ -109,11 +109,16 @@ export default function Ticket({ work }: { work: Work }) {
               ))}
             </ul>
             <div className={styles.actions}>
-              <span className={styles.hint}>{torn ? "입장권 확인 완료" : "← 뜯어서 입장"}</span>
+              {work.href && (
+                <a href={work.href} className={styles.openSite} {...linkProps} aria-label={`${work.title} 사이트 보기${external ? " (새 창)" : ""}`}>
+                  사이트 보기 ↗
+                </a>
+              )}
               <button type="button" className={styles.flip} onClick={() => setFlipped(true)}>
-                뒷면 보기 ↻
+                상세 보기 ↻
               </button>
             </div>
+            <p className={styles.hint}>{torn ? "입장권 확인 완료" : "← 절취선을 뜯어보세요"}</p>
           </div>
         </div>
 
@@ -143,6 +148,6 @@ export default function Ticket({ work }: { work: Work }) {
           </div>
         </div>
       </div>
-    </li>
+    </article>
   );
 }

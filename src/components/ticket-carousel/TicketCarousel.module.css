@@ -1,0 +1,100 @@
+.carousel {
+  --ticket-width: 420px;
+  --radius: clamp(320px, 34vw, 460px);
+  position: relative;
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.viewport {
+  position: relative;
+  height: clamp(430px, 52svh, 580px);
+  perspective: 1200px;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+}
+
+.viewport:active { cursor: grabbing; }
+.carousel[data-expanded="true"] .viewport { cursor: default; }
+.ring {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(-1 * var(--radius)));
+  will-change: transform;
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--ticket-width);
+  margin-left: calc(var(--ticket-width) / -2);
+  transform: rotateY(var(--angle)) translateZ(var(--radius)) rotateY(var(--facing, 0rad)) translateY(-50%);
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
+.card[data-front="true"] { z-index: 1; }
+.carousel[data-expanded="true"] .card[data-front="true"] {
+  transform: rotateY(var(--angle)) translateZ(calc(var(--radius) + 65px)) rotateY(var(--facing, 0rad)) translateY(-50%);
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.floor {
+  position: absolute;
+  bottom: 10%;
+  left: 50%;
+  width: min(900px, 84%);
+  height: 18%;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  border: 1px solid var(--color-line);
+  background: radial-gradient(ellipse, var(--color-accent-surface), transparent 70%);
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.toolbar { position: relative; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; }
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-background-alt);
+  color: var(--color-foreground);
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.arrow:hover { border-color: var(--color-accent); }
+.current { min-width: 200px; display: flex; flex-direction: column; gap: 3px; align-items: center; color: var(--color-foreground); font-size: 0.85rem; }
+.counter { color: var(--color-accent); font-family: var(--font-display), serif; font-style: italic; letter-spacing: 0.15em; }
+.selector { display: flex; justify-content: center; gap: 10px; list-style: none; margin-top: 20px; padding: 8px 2px; overflow-x: auto; scrollbar-width: thin; }
+.selector li { flex: 0 0 auto; }
+.selector button { display: flex; flex-direction: column; gap: 4px; min-width: 135px; padding: 10px 14px; border: 1px solid var(--color-line); border-radius: 4px; background: var(--color-background-alt); color: var(--color-muted); font: inherit; font-size: 0.7rem; text-align: left; cursor: pointer; }
+.selector button > span:first-child { color: var(--color-accent); font-family: var(--font-display), serif; font-style: italic; font-size: 0.8rem; }
+.selector button[aria-current="true"] { border-color: var(--color-accent); background: var(--color-panel); color: var(--color-foreground); }
+.hint { margin-top: 16px; text-align: center; font-size: 0.7rem; color: var(--color-muted); line-height: 1.8; }
+.close { position: absolute; z-index: 2; right: 16px; top: 16px; padding: 8px 16px; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-background-alt); color: var(--color-foreground); font: inherit; font-size: 0.8rem; cursor: pointer; }
+
+@media (max-width: 760px) {
+  .carousel { --ticket-width: min(340px, calc(100vw - 64px)); --radius: 240px; }
+  .viewport { height: 470px; perspective: 1100px; }
+  .toolbar { gap: 10px; }
+  .current { min-width: 160px; font-size: 0.75rem; }
+  .selector { justify-content: flex-start; }
+  .selector button { min-width: 115px; padding: 9px 12px; }
+  .carousel[data-expanded="true"] .card[data-front="true"] { transform: rotateY(var(--angle)) translateZ(calc(var(--radius) + 15px)) rotateY(var(--facing, 0rad)) translateY(-50%); }
+  .hint { font-size: 0.65rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card { transition: none !important; }
+}

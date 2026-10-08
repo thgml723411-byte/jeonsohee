@@ -1,4 +1,7 @@
 .header {
+  --header-text: var(--color-foreground);
+  --header-accent: var(--color-accent);
+  --header-muted: var(--color-muted);
   position: fixed;
   top: 0;
   left: 0;
@@ -12,8 +15,15 @@
   gap: 1.5rem;
   /* 배경 없이 투명 — 대신 글자 그림자로 밝은 배경 위에서도 읽히게 */
   background: transparent;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+  text-shadow: 0 1px 8px color-mix(in srgb, var(--color-background) 60%, transparent);
   animation: dropIn 0.8s ease 0.6s both;
+}
+
+.header[data-theme="light"] {
+  --header-text: var(--color-background);
+  --header-accent: var(--color-accent-ink);
+  --header-muted: var(--color-on-light-muted);
+  text-shadow: none;
 }
 
 @keyframes dropIn {
@@ -28,12 +38,12 @@
   font-size: 1.35rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: var(--paper);
+  color: var(--header-text);
   flex-shrink: 0;
 }
 
 .logo span {
-  color: var(--silver);
+  color: var(--header-accent);
 }
 
 .nav {
@@ -49,7 +59,7 @@
   flex-direction: column;
   align-items: center;
   font-size: 0.85rem;
-  color: var(--muted);
+  color: var(--header-muted);
   white-space: nowrap;
   transition: color 0.25s ease;
 }
@@ -59,13 +69,12 @@
   font-style: italic;
   font-size: 0.68rem;
   letter-spacing: 0.08em;
-  color: var(--silver);
-  opacity: 0.7;
+  color: var(--header-muted);
 }
 
 .link:hover,
 .link[aria-current="true"] {
-  color: var(--paper);
+  color: var(--header-text);
 }
 
 .link::after {
@@ -76,7 +85,7 @@
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--silver);
+  background: var(--header-accent);
   transform: translateX(-50%) scale(0);
   transition: transform 0.25s ease;
 }

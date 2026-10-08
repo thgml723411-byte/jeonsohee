@@ -1,24 +1,25 @@
-/* 티켓 2열 그리드 — 한 줄에 2장씩 */
-.track {
-  list-style: none;
+.section {
+  padding-inline: max(24px, 3vw);
+}
+
+.layout {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 420px));
-  justify-content: center;
-  gap: 1.6rem 2rem;
-  padding: 0.5rem 0 1rem;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 380px);
+  align-items: center;
+  gap: clamp(24px, 3vw, 48px);
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
 }
 
-.tip {
-  margin-top: 0.5rem;
-  text-align: center;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: var(--muted);
+.tickets,
+.seating {
+  min-width: 0;
 }
 
-/* 좁은 화면은 1열 */
-@media (max-width: 760px) {
-  .track {
-    grid-template-columns: minmax(0, 420px);
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3rem;
   }
 }

@@ -1,0 +1,5 @@
+Ammo.js: a port of Bullet Physics to JavaScript. zlib licensed.
+https://github.com/kripken/ammo.js
+
+These unmodified runtime files are supplied by the official Three.js r177 examples:
+https://github.com/mrdoob/three.js/tree/r177/examples/jsm/libs

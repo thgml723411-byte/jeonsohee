@@ -1,0 +1,55 @@
+.wave {
+  --wave-lift: clamp(3px, 0.15em, 9px);
+  cursor: default;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.character {
+  display: inline-block;
+  transform-origin: 50% 80%;
+}
+
+.accessible {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+  user-select: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .wave:hover .character {
+    animation: ripple 1.4s ease-in-out infinite;
+    animation-delay: calc(var(--wave-index) * -55ms);
+  }
+}
+
+@keyframes ripple {
+  0%,
+  50%,
+  100% {
+    transform: translateY(0) rotate(0);
+  }
+  25% {
+    transform: translateY(calc(-1 * var(--wave-lift))) rotate(-2deg);
+  }
+  75% {
+    transform: translateY(var(--wave-lift)) rotate(2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave:hover .character {
+    animation: none;
+    transform: none;
+  }
+}

@@ -13,7 +13,7 @@
   inset: 0;
   z-index: 5;
   pointer-events: none; /* 클릭은 아래 콘텐츠로 통과 */
-  background-color: rgba(3, 3, 3, 0.97);
+  background-color: color-mix(in srgb, var(--color-background) 97%, transparent);
   /* 원본은 mask-image 30px / -webkit-mask-image 300px로 달랐음 → 하나로 통일 */
   -webkit-mask-image: radial-gradient(
     circle var(--radius) at var(--mouse-x) var(--mouse-y),
@@ -44,7 +44,7 @@
   font-style: italic;
   font-size: 0.85rem;
   letter-spacing: 0.3em;
-  color: var(--silver);
+  color: var(--color-accent);
   white-space: nowrap;
   animation: blink 2.4s ease-in-out infinite;
   transition: opacity 0.4s ease;

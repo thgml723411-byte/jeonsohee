@@ -1,0 +1,6 @@
+Pile of Hearts #1 by WakanaY.K. (wakana-k)
+https://codepen.io/wakana-k/pen/KwpjGpO
+
+Asset: 3D heart model by WakanaY.K. Commercial use is not permitted.
+Source model: https://happy358.github.io/misc/model/Heart/Heart.obj
+The original model is retained; the portfolio scales it at runtime.

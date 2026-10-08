@@ -1,17 +1,35 @@
 :root {
-  /* 무대 팔레트 — 레드 · 블랙 · 실버(조명) · 브라운 */
-  --ink: #0a0a0b; /* 블랙: 객석 어둠 */
-  --ink-2: #131012;
-  --velvet: #9b111e; /* 레드: 벨벳 */
-  --velvet-deep: #4a070e;
-  --silver: #c7cbd1; /* 실버: 조명 */
-  --silver-soft: #eef0f3;
-  --brown: #5a3a26; /* 브라운: 무대 바닥 · 나무 */
-  --brown-deep: #24170f;
-  --brown-light: #b0896a;
-  --paper: #f2f1ef;
-  --muted: #a8998b;
-  --line: rgba(199, 203, 209, 0.28);
+  /* Exact Ad Astra palette supplied for this portfolio. */
+  --color-background: #0a0f14;
+  --color-background-alt: #0c1420;
+  --color-foreground: #e2d8c9;
+  --color-accent: #4a85c0;
+  --color-neptune: #3971a8;
+
+  /* Pink/purple accents visually matched to the reference, absent from its CSS. */
+  --color-rose: #87596d;
+  --color-violet: #56317e;
+
+  /* Supporting tones are mixed only from the five palette colors. */
+  --color-muted: color-mix(in srgb, var(--color-foreground) 78%, var(--color-background));
+  --color-line: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --color-panel: color-mix(in srgb, var(--color-neptune) 18%, var(--color-background-alt));
+  --color-accent-surface: color-mix(in srgb, var(--color-neptune) 38%, var(--color-background-alt));
+  --color-accent-ink: color-mix(in srgb, var(--color-neptune) 72%, var(--color-background));
+  --color-on-light-muted: color-mix(in srgb, var(--color-background) 72%, var(--color-foreground));
+
+  /* Adjacent sections share these exact gradient endpoints. */
+  --color-stage-blue: color-mix(in srgb, var(--color-neptune) 28%, var(--color-background-alt));
+  --color-stage-violet: color-mix(in srgb, var(--color-violet) 35%, var(--color-background-alt));
+  --color-stage-rose: color-mix(in srgb, var(--color-rose) 32%, var(--color-background-alt));
+  --section-fade-height: clamp(160px, 22vh, 260px);
+  --profile-background: var(--color-foreground);
+  --skills-background: linear-gradient(180deg in srgb,
+    var(--color-background-alt) 0% 8%, var(--color-stage-blue) 50%, var(--color-stage-violet) 92% 100%);
+  --works-background: linear-gradient(180deg in srgb,
+    var(--color-stage-violet) 0% 8%, var(--color-background-alt) 50%, var(--color-stage-rose) 92% 100%);
+  --contact-background: linear-gradient(180deg in srgb,
+    var(--color-stage-rose) 0% 8%, var(--color-stage-blue) 50%, var(--color-background) 92% 100%);
 
   --header-h: 68px;
   color-scheme: dark;
@@ -32,12 +50,8 @@ html {
 
 body {
   min-height: 100vh;
-  color: var(--paper);
-  background:
-    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(155, 17, 30, 0.22), transparent 70%),
-    radial-gradient(ellipse 90% 40% at 50% 100%, rgba(90, 58, 38, 0.25), transparent 70%),
-    linear-gradient(180deg, var(--ink) 0%, var(--ink-2) 50%, var(--ink) 100%);
-  background-attachment: fixed;
+  color: var(--color-foreground);
+  background: var(--color-background);
   font-family: var(--font-sans), "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   font-weight: 400;
   line-height: 1.7;
@@ -53,13 +67,13 @@ a {
 }
 
 :focus-visible {
-  outline: 2px solid var(--silver);
+  outline: 2px solid var(--color-accent);
   outline-offset: 3px;
 }
 
 ::selection {
-  background: var(--silver);
-  color: var(--ink);
+  background: var(--color-accent-ink);
+  color: var(--color-foreground);
 }
 
 @media (prefers-reduced-motion: reduce) {

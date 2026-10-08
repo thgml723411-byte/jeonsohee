@@ -9,22 +9,27 @@
 
 | 순서 | 섹션 (id) | 막 | 내용 |
 | --- | --- | --- | --- |
-| 1 | `#prologue` | Prologue | 은색 조명 빔과 나무 무대 바닥 위에 이름 · 한 줄 소개 |
-| 2 | `#performer` | Act I · The Performer | 프로필 사진(은색 액자), 자기소개, 기본 정보, 한 문장 |
+| 1 | `#prologue` | Prologue | 조명과 스모그 위의 블루 제목 · 이름 |
+| 2 | `#performer` | Act I · The Performer | 밝은 아이보리 배경, 인물 윤곽을 따라 흐르는 자기소개 |
 | 3 | `#repertoire` | Act II · Repertoire | 공연 프로그램북 형식의 기술 스택 |
 | 4 | `#program` | Act III · The Program | 공연 티켓 모양의 작업물 카드 (가로 스크롤) |
 | 5 | `#curtain-call` | Finale · Curtain Call | 감사 인사, 연락처, 앙코르(맨 위로) |
 
 모든 섹션은 **한 화면(100vh)** 크기이며, `scroll-snap`으로 스크롤할 때 섹션 단위로 딱 맞춰집니다.
 
-### 테마 색상 — 레드 · 블랙 · 실버 · 브라운
+### 테마 색상 — Ad Astra 블루 · 아이보리 · 딥 블랙
 
 | 색 | 역할 | 토큰 |
 | --- | --- | --- |
-| 🟥 레드 | 벨벳 커튼, 티켓 | `--velvet` `#9b111e`, `--velvet-deep` `#4a070e` |
-| ⬛ 블랙 | 객석의 어둠, 배경 | `--ink` `#0a0a0b`, `--ink-2` `#131012` |
-| ⬜ 실버 | 조명, 강조 글자, 테두리 | `--silver` `#c7cbd1`, `--silver-soft` `#eef0f3` |
-| 🟫 브라운 | 무대 바닥, 카드 배경, 보조 라벨 | `--brown` `#5a3a26`, `--brown-deep` `#24170f`, `--brown-light` `#b0896a` |
+| 딥 블랙 | 기본 배경 | `--color-background` `#0a0f14` |
+| 네이비 | 배경 그라데이션 | `--color-background-alt` `#0c1420` |
+| 아이보리 | 본문, 프로필 배경, 티켓 앞면 | `--color-foreground` `#e2d8c9` |
+| 블루 | 제목, 버튼, 테두리, 커튼 | `--color-accent` `#4a85c0` |
+| 짙은 블루 | 보조 강조 | `--color-neptune` `#3971a8` |
+| 자주빛 핑크 | 배경 포인트 | `--color-rose` `#87596d` (이미지 기준 근사색) |
+| 보라 | 배경 포인트 | `--color-violet` `#56317e` (이미지 기준 근사색) |
+
+앞의 다섯 색은 제공된 CSS의 정확한 값입니다. 원본 JavaScript의 핑크·보라는 반사 방향, 노이즈, 시간, 스크롤로 계산되는 RGB이며 고정된 HEX 값이 없습니다. 위의 두 보조색은 그 애니메이션의 레퍼런스 이미지에 맞춘 고정 근사색입니다. 작은 글자, 카드, 테두리는 기본 다섯 색의 혼합과 투명도로 구성했습니다.
 
 모든 색상은 `src/app/globals.css`의 `:root`에 모여 있습니다. 여기 값만 바꾸면 사이트 전체에 적용됩니다.
 
@@ -48,7 +53,10 @@
 - **Prologue** — 페이지가 열리면 조명 빔이 켜지고, 이름과 소개가 차례로 떠오릅니다.
 - **Header** — 지금 보고 있는 막을 자동으로 표시합니다 (IntersectionObserver).
 - **Reveal** — 섹션 콘텐츠가 화면에 들어오면 아래에서 떠오르며 등장합니다.
+- **PileOfHearts** — 두 번째 섹션의 인물 머리 위에서 3D 하트가 떨어집니다. 투명한 캔버스와 Ammo.js 물리 효과를 사용하며, 화면 밖·비활성 탭·동작 줄이기 설정에서는 멈춥니다. 관련 코드는 `src/components/pile-of-hearts/`에 있습니다.
 - `prefers-reduced-motion` 설정을 켠 사용자에게는 애니메이션을 최소화해서 보여줍니다.
+
+하트 연출의 원본은 [WakanaY.K.의 Pile of Hearts #1](https://codepen.io/wakana-k/pen/KwpjGpO)입니다. 제공된 하트 모델의 고지에 따라 **상업적 사용은 허용되지 않습니다**. 원본 모델과 출처는 `public/models/hearts/`, 로컬 Ammo.js 실행 파일과 라이선스는 `public/vendor/ammo/`에 보관했습니다. Three.js는 설치된 npm 패키지를 사용하고, 원본의 HDR 다운로드 대신 `RoomEnvironment`로 반사광을 만듭니다.
 
 ## 폴더 구조
 

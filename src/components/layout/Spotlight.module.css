@@ -7,8 +7,8 @@
   pointer-events: none;
   background: radial-gradient(
     circle 28vmax at var(--mx) var(--my),
-    rgba(220, 228, 240, 0.1),
-    rgba(220, 228, 240, 0.03) 45%,
+    color-mix(in srgb, var(--color-accent) 10%, transparent),
+    color-mix(in srgb, var(--color-accent) 3%, transparent) 45%,
     transparent 70%
   );
   mix-blend-mode: screen;

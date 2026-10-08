@@ -104,8 +104,8 @@
 
 .aperture-light {
   --aperture-bg: black;
-  --aperture-fg: white;
-  --aperture-muted: rgb(204 204 204);
+  --aperture-fg: var(--color-foreground);
+  --aperture-muted: var(--color-muted);
 }
 .aperture-light {
   position: absolute;

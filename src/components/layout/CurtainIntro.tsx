@@ -1,26 +1,42 @@
 "use client";
 
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./CurtainIntro.module.css";
 
-// 커튼 한쪽을 몇 가닥으로 나눌지 — 많을수록 부드럽게 "샤라라" 걷힘
-const STRIPS = 12;
-
-/**
- * 인트로 — 막 위로 조명이 켜지고, 커튼이 양옆으로 걷히면
- * 뒤에서 첫 화면(Aperture Light 조명 애니메이션)이 드러난다.
- * 클릭하면 바로 건너뛴다.
- */
 export default function CurtainIntro() {
   const [done, setDone] = useState(false);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  // 인트로 동안 페이지 스크롤 잠금
   useEffect(() => {
     if (done) return;
     const html = document.documentElement;
+    const previousOverflow = html.style.overflow;
     html.style.overflow = "hidden";
+    let disposed = false;
+    let disposeCloth: (() => void) | undefined;
+    const finish = () => setDone(true);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") finish();
+    };
+    window.addEventListener("keydown", onKeyDown);
+
+    // CSS remains a complete fallback while the texture and renderer load.
+    if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      import("./curtain-cloth").then(({ createCurtainCloth }) => {
+        if (disposed || !canvasRef.current) return;
+        disposeCloth = createCurtainCloth(canvasRef.current, finish);
+      }).catch(() => {
+        // The CSS curtains still open if WebGL is unavailable.
+      });
+    }
+
+    const timeout = window.setTimeout(finish, 7000);
     return () => {
-      html.style.overflow = "";
+      disposed = true;
+      window.clearTimeout(timeout);
+      window.removeEventListener("keydown", onKeyDown);
+      disposeCloth?.();
+      html.style.overflow = previousOverflow;
     };
   }, [done]);
 
@@ -30,25 +46,20 @@ export default function CurtainIntro() {
     <div
       className={styles.intro}
       onClick={() => setDone(true)}
-      // 전체 시간(.intro 애니메이션)이 끝나면 인트로 제거
-      onAnimationEnd={(e) => {
-        if (e.target === e.currentTarget) setDone(true);
+      onAnimationEnd={(event) => {
+        if (event.target === event.currentTarget) setDone(true);
       }}
-      aria-hidden
     >
-      {(["left", "right"] as const).map((side) =>
-        Array.from({ length: STRIPS }, (_, i) => (
-          // i = 0 이 화면 가장자리, STRIPS-1 이 가운데(먼저 출발)
-          <div
-            key={`${side}-${i}`}
-            className={`${styles.strip} ${styles[side]}`}
-            style={{ "--i": i, "--n": STRIPS } as CSSProperties}
-          />
-        ))
-      )}
-      <div className={styles.valance} />
-      <div className={styles.spot} />
-      <p className={styles.skip}>Click to skip</p>
+      <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
+      <div className={styles.fallback} aria-hidden="true">
+        <div className={`${styles.panel} ${styles.left}`} />
+        <div className={`${styles.panel} ${styles.right}`} />
+      </div>
+      <div className={styles.valance} aria-hidden="true" />
+      <div className={styles.spot} aria-hidden="true" />
+      <button type="button" className={styles.skip} aria-label="인트로 건너뛰기">
+        Click to skip
+      </button>
     </div>
   );
 }

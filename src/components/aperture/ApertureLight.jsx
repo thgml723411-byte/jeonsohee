@@ -19,7 +19,7 @@ export default function ApertureLight({ className = "", keyboard = true, control
   return (
     <div ref={rootRef} className={`aperture-light ${className}`} data-clean={String(!controls)}>
       <div className="aperture-light__canvas" role="img"
-        aria-label="A flare contracts into a light beam above a curved glass rim." />
+        aria-label="A flare contracts into a light beam." />
       <div className="aperture-light__controls" role="group" aria-label="Animation playback">
         <button className="aperture-light__toggle" type="button" data-playing="true"
           aria-label="Pause animation" title="Play / pause · Space">

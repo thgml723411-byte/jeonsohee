@@ -493,36 +493,6 @@ vec3 aperture(vec2 p,vec3 shaft) {
   return mix(underlying,vec3(white),core*appearance);
 }
 
-vec3 glass(vec2 p) {
-  if(uTime<8.0 || uTime>14.0 || p.y<.70) return vec3(0);
-  float x=p.x-uRim[2];
-  float radius=uRim[1],width=max(.001,uRim[3]);
-  float curve=uRim[0]+radius-sqrt(max(.0001,radius*radius-x*x));
-  float edge=p.y-curve;
-  const float offsets[6]=float[6](0.0,.004,.010,.016,.023,.029);
-  const float soft[6]=float[6](.0022,.0035,.003,.0035,.003,.004);
-  const float widths[3]=float[3](.28,.62,.95);
-  vec3 c=vec3(0);
-  for(int j=0;j<6;j++) {
-    float band=g((edge-offsets[j])/soft[j]);
-    for(int k=0;k<3;k++) c+=uRimColor[j*3+k]*band*g(x/(width*widths[k]));
-  }
-  const vec3 ghosts[5]=vec3[5](
-    vec3(-.004,.028,.012),vec3(.042,.035,.003),vec3(.052,.06,.008),
-    vec3(.14,.028,.03),vec3(.015,.1,.025));
-  for(int j=0;j<5;j++) {
-    vec3 v=ghosts[j];
-    c+=uRimColor[18+j]*g(x/v.y)*g((p.y-uRim[0]-v.x)/v.z);
-  }
-  float radial=abs(x)/width;
-  // The reference has a dim lead-in followed by a quick highlight reveal.
-  // Correct brightness only; the rim's geometry and later clock stay intact.
-  float reveal=mix(.5,1.9,ease(8.48,8.63,uTime));
-  reveal=mix(reveal,1.25,ease(8.63,8.83,uTime));
-  reveal=mix(reveal,1.0,ease(8.83,9.1,uTime));
-  return c*reveal*(.94+.44*g((radial-.57)/.23))*(1.0-smoothstep(.74,1.15,radial));
-}
-
 void main() {
   // cover: 16:9 프레임이 섹션을 꽉 채우도록 (min이면 좌우/상하 검은 띠가 생김)
   vec2 frame=vec2(max(uResolution.x,uResolution.y*16.0/9.0));
@@ -532,7 +502,7 @@ void main() {
   // Evaluate aperture derivatives for the entire fragment quad. Returning
   // early at the letterbox split made fwidth(sd) undefined for edge quads,
   // occasionally drawing pieces of the white aperture far from the source.
-  vec3 c=flare(p)+aperture(p,beam(p)+dust(p))+glass(p);
+  vec3 c=flare(p)+aperture(p,beam(p)+dust(p));
   float grain=(hash(gl_FragCoord.xy)-.5)/255.0;
   c=clamp(c+grain*smoothstep(.015,.1,length(c)),vec3(0),vec3(.988));
   float inside=step(abs(pixel.x),frame.x*.5)*step(abs(pixel.y),frame.y*.5);

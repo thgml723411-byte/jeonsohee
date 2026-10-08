@@ -1,178 +1,130 @@
-/*
-  타임라인 (총 3.5s)
-  0.0 ~ 1.0s  막 위로 스포트라이트가 켜짐
-  1.0 ~ 3.4s  커튼 가닥들이 가운데부터 차례로 양옆으로 걷힘
-              → 뒤에서 Aperture Light 조명 애니메이션 등장
-  3.5s        인트로 제거
-*/
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 100; /* 헤더(60)보다 위 */
+  z-index: 100;
   overflow: hidden;
   cursor: pointer;
-  animation: hold 3.5s linear forwards;
+  animation: hold 7s linear forwards;
 }
 
 @keyframes hold {
-  to {
-    visibility: hidden;
-  }
+  to { visibility: hidden; }
 }
 
-/* ───────── 커튼 — 가닥(strip)으로 나눠 차례로 걷힘 ─────────
-  --i : 0 = 화면 가장자리 쪽 가닥, n-1 = 가운데 가닥
-  가운데 가닥부터 먼저 출발하고, 가장자리로 갈수록 조금씩 늦게 따라와
-  주름이 모이듯 "샤라라" 걷힌다.
-*/
-.strip {
-  --w: calc(50vw / var(--n)); /* 가닥 하나의 너비 */
-  --offset: calc(var(--w) * var(--i)); /* 화면 가장자리로부터 거리 */
-  --pull: calc(var(--offset) - var(--i) * 1.4vw); /* 가장자리로 모일 때 이동 거리 */
+.canvas,
+.fallback {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  width: calc(var(--w) + 1px); /* 가닥 사이 틈 방지 */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.canvas { opacity: 0; }
+.canvas[data-ready="true"] { opacity: 1; }
+.canvas[data-ready="true"] ~ .fallback { visibility: hidden; }
+
+/* Continuous photo panels also work without a graphics context. */
+.panel {
+  position: absolute;
+  top: -2%;
+  bottom: -3%;
+  width: calc(50% + 1px);
   overflow: hidden;
-  background: #1a0004;
-  animation: gather 1.9s cubic-bezier(0.6, 0, 0.3, 1) forwards;
-  animation-delay: calc(1s + (var(--n) - 1 - var(--i)) * 45ms);
+  animation: gather 5.4s cubic-bezier(0.45, 0, 0.2, 1) 0.7s both;
   will-change: transform;
 }
 
 .left {
-  --dir: -1;
-  left: var(--offset);
-  transform-origin: 0 50%;
+  --direction: -1;
+  left: 0;
+  transform-origin: left top;
 }
 
 .right {
-  --dir: 1;
-  right: var(--offset);
-  transform-origin: 100% 50%;
+  --direction: 1;
+  right: 0;
+  transform-origin: right top;
+  animation-delay: 0.77s;
 }
 
-/* 사진 한 장을 화면 전체 크기로 깔고, 가닥마다 자기 자리 부분만 보여줌
-   → 닫혀 있을 땐 한 장의 사진처럼 보임 */
-.strip::before {
+.panel::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
+  inset: 0 auto 0 0;
   width: 100vw;
-  /* 파일명에 띄어쓰기가 있어 %20으로 표기 */
-  background: url("/images/Cinemastyle%20textile%20curtain%20banner%20with%20spot%20light%20effect%20_%20Free%20Vector.jpg")
-    center / cover no-repeat;
+  background: var(--color-neptune) url("/images/Cinemastyle%20textile%20curtain%20banner%20with%20spot%20light%20effect%20_%20Free%20Vector.jpg") center / cover no-repeat;
+  background-blend-mode: luminosity;
 }
 
-.left::before {
-  left: calc(var(--offset) * -1);
-}
+.right::before { left: auto; right: 0; }
 
-.right::before {
-  right: calc(var(--offset) * -1);
-}
-
-/* 모이면서 생기는 주름 그림자 */
-.strip::after {
+.panel::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.45),
-    transparent 30%,
-    rgba(255, 210, 210, 0.06) 50%,
-    transparent 70%,
-    rgba(0, 0, 0, 0.45)
-  );
-  opacity: 0;
-  animation: fold 0.8s ease forwards;
-  animation-delay: inherit;
+  background: repeating-linear-gradient(90deg, transparent 0%, rgb(3 10 20 / 24%) 5%, transparent 10%, rgb(226 216 201 / 8%) 13%, transparent 17%);
+  animation: folds 5.4s ease 0.7s both;
 }
 
 @keyframes gather {
-  0% {
-    transform: translateX(0) scaleX(1);
-    filter: brightness(1);
-  }
-  55% {
-    /* 천이 끌려가며 살짝 출렁임 */
-    transform: translateX(calc(var(--dir) * var(--pull) * 0.85)) scaleX(0.55) skewY(calc(var(--dir) * 0.8deg));
-  }
-  78% {
-    transform: translateX(calc(var(--dir) * var(--pull))) scaleX(0.4);
-    filter: brightness(0.65);
-  }
-  100% {
-    /* 다 모인 뒤 화면 밖으로 빠짐 */
-    transform: translateX(calc(var(--dir) * (var(--pull) + 25vw))) scaleX(0.4);
-    filter: brightness(0.5);
-  }
+  0% { transform: scaleX(1); }
+  28% { transform: scaleX(0.82) skewX(calc(var(--direction) * -0.8deg)); }
+  55% { transform: scaleX(0.36) skewX(calc(var(--direction) * 1.2deg)); }
+  75% { transform: scaleX(0.13) skewX(calc(var(--direction) * 0.3deg)); }
+  88% { transform: scaleX(0.1); }
+  100% { transform: translateX(calc(var(--direction) * 20vw)) scaleX(0.08); }
 }
 
-@keyframes fold {
-  to {
-    opacity: 1;
-  }
+@keyframes folds {
+  from { opacity: 0; }
+  50%, 100% { opacity: 1; }
 }
 
-/* ───────── 위쪽 가림막(밸런스) ───────── */
 .valance {
   position: absolute;
   inset: 0 0 auto;
-  height: 14vh;
-  background: linear-gradient(180deg, #0d0002 30%, transparent);
-  animation: fadeOut 0.8s ease 1.8s forwards;
+  height: 12vh;
+  pointer-events: none;
+  background: linear-gradient(180deg, var(--color-background) 5%, transparent);
+  animation: fadeOut 1s ease 1.1s forwards;
 }
 
-/* ───────── 막 위의 스포트라이트 ───────── */
 .spot {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse 26% 40% at 50% 45%, /* 이미지 속 스포트라이트 위치에 맞춤 */
-    rgba(255, 236, 214, 0.38),
-    rgba(255, 236, 214, 0.08) 55%,
-    transparent 75%
-  );
+  background: radial-gradient(ellipse 30% 48% at 50% 43%, rgb(226 216 201 / 24%), rgb(226 216 201 / 5%) 55%, transparent 75%);
   mix-blend-mode: screen;
   opacity: 0;
-  animation:
-    spotOn 0.7s ease 0.2s forwards,
-    fadeOut 0.6s ease 1.2s forwards;
+  animation: spotOn 0.65s ease 0.1s forwards, fadeOut 0.85s ease 0.85s forwards;
 }
 
-@keyframes spotOn {
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  to {
-    opacity: 0;
-  }
-}
+@keyframes spotOn { to { opacity: 1; } }
+@keyframes fadeOut { to { opacity: 0; } }
 
 .skip {
   position: absolute;
   right: 24px;
   bottom: 20px;
+  padding: 8px;
+  border: 0;
+  background: transparent;
   font-family: var(--font-display), serif;
   font-style: italic;
   font-size: 0.75rem;
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: rgba(242, 241, 239, 0.55);
-  animation: fadeOut 0.4s ease 1s forwards;
+  color: var(--color-foreground);
+  cursor: pointer;
+  animation: fadeOut 0.8s ease 2.2s forwards;
 }
 
-/* 움직임 줄이기 설정이면 인트로를 즉시 끝냄 */
 @media (prefers-reduced-motion: reduce) {
   .intro,
-  .intro * {
+  .intro *,
+  .intro *::before,
+  .intro *::after {
     animation-duration: 1ms !important;
     animation-delay: 0s !important;
   }

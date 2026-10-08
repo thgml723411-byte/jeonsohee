@@ -1,0 +1,39 @@
+.fade {
+  position: relative;
+}
+
+/* Cosine easing keeps the color slope flat at both ends of the transition. */
+.fade::after {
+  content: "";
+  position: absolute;
+  /* Overlap one pixel so fractional section heights cannot expose a seam. */
+  inset: auto 0 -1px;
+  height: calc(var(--section-fade-height) + 1px);
+  z-index: 0;
+  pointer-events: none;
+  background: var(--section-fade-background);
+  mask-image: linear-gradient(
+    180deg,
+    rgb(0 0 0 / 0) 0%,
+    rgb(0 0 0 / 0.0062) 5%,
+    rgb(0 0 0 / 0.0245) 10%,
+    rgb(0 0 0 / 0.0545) 15%,
+    rgb(0 0 0 / 0.0955) 20%,
+    rgb(0 0 0 / 0.1464) 25%,
+    rgb(0 0 0 / 0.2061) 30%,
+    rgb(0 0 0 / 0.273) 35%,
+    rgb(0 0 0 / 0.3455) 40%,
+    rgb(0 0 0 / 0.4218) 45%,
+    rgb(0 0 0 / 0.5) 50%,
+    rgb(0 0 0 / 0.5782) 55%,
+    rgb(0 0 0 / 0.6545) 60%,
+    rgb(0 0 0 / 0.727) 65%,
+    rgb(0 0 0 / 0.7939) 70%,
+    rgb(0 0 0 / 0.8536) 75%,
+    rgb(0 0 0 / 0.9045) 80%,
+    rgb(0 0 0 / 0.9455) 85%,
+    rgb(0 0 0 / 0.9755) 90%,
+    rgb(0 0 0 / 0.9938) 95%,
+    black 100%
+  );
+}

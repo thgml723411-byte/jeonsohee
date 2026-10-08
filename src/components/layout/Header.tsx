@@ -25,7 +25,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className={styles.header}>
+    <header className={styles.header} data-theme={active === "performer" ? "light" : "dark"}>
       <a href="#prologue" className={styles.logo}>
         STAGE<span>.</span>
       </a>

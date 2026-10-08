@@ -6,12 +6,36 @@
   flex-direction: column;
   justify-content: center;
   scroll-snap-align: start;
-  border-top: 1px solid rgba(199, 203, 209, 0.08);
+  background: var(--section-background);
+}
+
+.section:global(#repertoire) {
+  --section-background: var(--skills-background);
+}
+
+.section:global(#program) {
+  --section-background: var(--works-background);
+}
+
+.section:global(#curtain-call) {
+  --section-background: var(--contact-background);
 }
 
 .heading {
   text-align: center;
   margin-bottom: clamp(2rem, 5vh, 3.5rem);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 .act {
@@ -20,7 +44,7 @@
   letter-spacing: 0.25em;
   text-transform: uppercase;
   font-size: 0.85rem;
-  color: var(--silver);
+  color: var(--color-accent);
 }
 
 .title {
@@ -28,7 +52,7 @@
   font-size: clamp(2.2rem, 6vw, 4rem);
   font-weight: 700;
   line-height: 1.1;
-  color: var(--paper);
+  color: var(--color-accent);
 }
 
 .ornament {
@@ -36,7 +60,7 @@
   align-items: center;
   gap: 0.8rem;
   margin-top: 0.6rem;
-  color: var(--silver);
+  color: var(--color-accent);
   font-size: 0.8rem;
 }
 
@@ -45,7 +69,7 @@
   content: "";
   width: 48px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--silver));
+  background: linear-gradient(90deg, transparent, var(--color-accent));
 }
 
 .ornament::after {
