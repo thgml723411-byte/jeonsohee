@@ -6,7 +6,7 @@ import type { Work } from "@/types/portfolio";
 export const works: Work[] = [
   {
     no: 1,
-    title: "흔적 보관소",
+    title: "흔적 보관소 · 방명록",
     period: "2026.07",
     category: "Guestbook",
     description: "나만의 캐릭터를 골라 방명록을 남기는 Firebase 기반 웹앱.",
@@ -82,7 +82,7 @@ export const works: Work[] = [
   {
     no: 6,
     title: "React AI Study · 학습 챗봇",
-    period: "배포 완료",
+    period: "2026.10",
     category: "AI Learning",
     description: "AI 개념 설명과 퀴즈, 힌트, 이용 안내 챗봇을 제공하는 React 학습 서비스.",
     tags: ["Next.js", "TypeScript", "OpenAI", "Sass", "OpenWeather API"],
