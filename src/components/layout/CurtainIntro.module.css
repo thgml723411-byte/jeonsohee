@@ -20,9 +20,25 @@
   pointer-events: none;
 }
 
-.canvas { opacity: 0; }
-.canvas[data-ready="true"] { opacity: 1; }
-.canvas[data-ready="true"] ~ .fallback { visibility: hidden; }
+.canvas { opacity: 0; visibility: hidden; }
+.fallback {
+  will-change: opacity;
+  animation: curtainSurface 0.4s ease 0.7s both;
+}
+.intro[data-renderer="webgl"] .canvas[data-ready="true"] {
+  animation: curtainCanvas 1ms step-end 0.7s both;
+}
+/* Keep the same closed photograph until the opening starts at 0.7s.
+   Blend the surfaces only while both curtains are already opening. */
+@keyframes curtainSurface {
+  from { opacity: 1; visibility: visible; }
+  to { opacity: 0; visibility: hidden; }
+}
+
+@keyframes curtainCanvas {
+  from { opacity: 0; visibility: hidden; }
+  to { opacity: 1; visibility: visible; }
+}
 
 /* Continuous photo panels also work without a graphics context. */
 .panel {
@@ -90,17 +106,6 @@
   animation: fadeOut 1s ease 1.1s forwards;
 }
 
-.spot {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(ellipse 30% 48% at 50% 43%, rgb(226 216 201 / 24%), rgb(226 216 201 / 5%) 55%, transparent 75%);
-  mix-blend-mode: screen;
-  opacity: 0;
-  animation: spotOn 0.65s ease 0.1s forwards, fadeOut 0.85s ease 0.85s forwards;
-}
-
-@keyframes spotOn { to { opacity: 1; } }
 @keyframes fadeOut { to { opacity: 0; } }
 
 .skip {
@@ -118,6 +123,24 @@
   color: var(--color-foreground);
   cursor: pointer;
   animation: fadeOut 0.8s ease 2.2s forwards;
+}
+
+.intro,
+.intro *,
+.intro *::before,
+.intro *::after {
+  animation-play-state: paused;
+}
+
+.intro[data-state="playing"],
+.intro[data-state="playing"] *,
+.intro[data-state="playing"] *::before,
+.intro[data-state="playing"] *::after {
+  animation-play-state: running;
+}
+
+.intro[data-state="playing"][data-renderer="css"] .fallback {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {

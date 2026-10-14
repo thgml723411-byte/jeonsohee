@@ -21,14 +21,15 @@ const vertexShader = /* glsl */ `
     float width = mix(1.002, 0.075, pull);
     float loose = pow(drop, 1.35);
     float energy = sin(pull * 3.14159265);
-    float phase = edge * 50.265 + drop * 4.0 - uTime * 3.0 + uSide * 0.7;
+    float motionTime = max(localTime, 0.0);
+    float phase = edge * 50.265 + drop * 4.0 - motionTime * 3.0 + uSide * 0.7;
 
     // A traveling ripple and a slower damped swing give the cloth inertia.
-    float ripple = sin(phase) * (0.001 + 0.0065 * energy);
+    float ripple = sin(phase) * 0.0065 * energy;
     float swing = sin(localTime * 2.6 - drop * 1.6)
       * 0.022 * energy * loose;
-    float flutter = sin(uTime * 1.8 - drop * 2.0 + uSide)
-      * 0.0015 * loose * sin(edge * 3.14159265);
+    float flutter = sin(motionTime * 1.8 - drop * 2.0 + uSide)
+      * 0.0015 * loose * sin(edge * 3.14159265) * energy;
     float gathered = 1.0 - edge * width;
     float exit = smoothstep(5.15, 6.2, uTime) * 0.22;
 
@@ -62,8 +63,8 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-/** @param {HTMLCanvasElement} canvas @param {() => void} onComplete */
-export function createCurtainCloth(canvas, onComplete) {
+/** @param {HTMLCanvasElement} canvas @param {() => void} onComplete @param {() => boolean} onReady */
+export function createCurtainCloth(canvas, onComplete, onReady) {
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
@@ -85,6 +86,18 @@ export function createCurtainCloth(canvas, onComplete) {
   let texture;
   let disposed = false;
   let observer;
+
+  const dispose = () => {
+    if (disposed) return;
+    disposed = true;
+    renderer.setAnimationLoop(null);
+    observer?.disconnect();
+    geometry.dispose();
+    for (const material of materials) material.dispose();
+    texture?.dispose();
+    renderer.dispose();
+    delete canvas.dataset.ready;
+  };
 
   const resize = () => {
     const width = Math.max(canvas.clientWidth, 1);
@@ -128,11 +141,15 @@ export function createCurtainCloth(canvas, onComplete) {
     }
 
     resize();
+    renderer.render(scene, camera);
+    if (!onReady()) {
+      dispose();
+      return;
+    }
+    canvas.dataset.ready = "true";
     observer = new ResizeObserver(resize);
     observer.observe(canvas);
     const started = performance.now();
-    renderer.render(scene, camera);
-    canvas.dataset.ready = "true";
     renderer.setAnimationLoop((now) => {
       if (disposed) return;
       const elapsed = (now - started) / 1000;
@@ -148,14 +165,5 @@ export function createCurtainCloth(canvas, onComplete) {
     // Leave the CSS opening visible when the image cannot be loaded.
   });
 
-  return () => {
-    disposed = true;
-    renderer.setAnimationLoop(null);
-    observer?.disconnect();
-    geometry.dispose();
-    for (const material of materials) material.dispose();
-    texture?.dispose();
-    renderer.dispose();
-    delete canvas.dataset.ready;
-  };
+  return dispose;
 }
