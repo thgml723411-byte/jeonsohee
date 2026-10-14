@@ -218,7 +218,7 @@ export default function TicketCarousel({ works }: { works: Work[] }) {
           </li>
         ))}
       </ol>
-      <p className={styles.hint}>사이트 보기로 작품 방문 · 상세 보기로 기능 확인<br />좌우로 드래그 · 티켓을 눌러 확대</p>
+      <p className={styles.hint}>절취선을 뜯어 작품 방문 · 상세 보기로 기능 확인<br />좌우로 드래그 · 티켓을 눌러 확대</p>
     </div>
   );
 }

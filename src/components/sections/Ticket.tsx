@@ -8,7 +8,7 @@ const TEAR_DISTANCE = 70; // 이만큼(px) 끌어당기면 뜯어짐
 
 /**
  * 공연 티켓 한 장.
- * - 앞면의 "사이트 보기"로 작품에 바로 방문
+ * - 절취선을 뜯으면 나타나는 입장 링크로 작품 방문
  * - 절취선 뜯기와 3D 뒤집기로 공연 티켓을 체험
  */
 export default function Ticket({ work, interactive = true }: { work: Work; interactive?: boolean }) {
@@ -57,7 +57,7 @@ export default function Ticket({ work, interactive = true }: { work: Work; inter
             {work.href ? (
               <div className={styles.entry}>
                 <a href={work.href} className={styles.enter} {...linkProps} tabIndex={torn ? 0 : -1}>
-                  Enter →
+                  입장하기 →
                 </a>
                 <button
                   type="button"
@@ -109,16 +109,11 @@ export default function Ticket({ work, interactive = true }: { work: Work; inter
               ))}
             </ul>
             <div className={styles.actions}>
-              {work.href && (
-                <a href={work.href} className={styles.openSite} {...linkProps} aria-label={`${work.title} 사이트 보기${external ? " (새 창)" : ""}`}>
-                  사이트 보기 ↗
-                </a>
-              )}
+              <p className={styles.hint}>{!work.href ? "배포 준비 중" : torn ? "입장권 확인 완료" : "← 절취선을 뜯어보세요"}</p>
               <button type="button" className={styles.flip} onClick={() => setFlipped(true)}>
                 상세 보기 ↻
               </button>
             </div>
-            <p className={styles.hint}>{torn ? "입장권 확인 완료" : "← 절취선을 뜯어보세요"}</p>
           </div>
         </div>
 
