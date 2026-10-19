@@ -19,5 +19,6 @@ export const profile: Profile = {
   ],
   links: [
     { label: "Email", href: "mailto:thgml723411@gmail.com" },
+    { label: "010-7565-3553", href: "tel:01075653553" },
   ],
 };

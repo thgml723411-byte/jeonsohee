@@ -55,6 +55,11 @@
   margin: 2.4rem 0;
 }
 
+.linkItem {
+  display: flex;
+  gap: 6px;
+}
+
 .link {
   display: inline-block;
   min-width: 120px;
@@ -91,4 +96,21 @@
   font-size: 0.72rem;
   letter-spacing: 0.08em;
   color: var(--color-muted);
+}
+
+/* 전화 링크: 모바일에서는 바로 전화, PC(마우스)에서는 번호만 보여준다 */
+@media (hover: hover) and (pointer: fine) {
+  .link[href^="tel:"] {
+    pointer-events: none;
+    cursor: text;
+    user-select: text;
+  }
+}
+
+@media (max-width: 480px) {
+  .linkItem .link {
+    padding-inline: 0.9rem;
+    letter-spacing: 0.04em;
+    font-size: 0.9rem;
+  }
 }

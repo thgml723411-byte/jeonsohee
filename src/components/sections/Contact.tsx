@@ -1,4 +1,5 @@
 import { profile } from "@/data/profile";
+import CopyButton from "@/components/common/CopyButton";
 import Reveal from "@/components/common/Reveal";
 import Section from "@/components/common/Section";
 import CurtainRain from "@/components/curtain-rain/CurtainRain";
@@ -26,17 +27,21 @@ export default function Contact() {
         </p>
 
         <ul className={styles.links}>
-          {profile.links.map((l) => (
-            <li key={l.label}>
-              <a
-                href={l.href}
-                className={styles.link}
-                {...(l.href.startsWith("http") && { target: "_blank", rel: "noreferrer" })}
-              >
-                <span data-particle-text>{l.label}</span>
-              </a>
-            </li>
-          ))}
+          {profile.links.map((l) => {
+            const email = l.href.startsWith("mailto:") ? l.href.slice("mailto:".length) : null;
+            return (
+              <li key={l.label} className={styles.linkItem}>
+                <a
+                  href={l.href}
+                  className={styles.link}
+                  {...(l.href.startsWith("http") && { target: "_blank", rel: "noreferrer" })}
+                >
+                  <span data-particle-text>{email ?? l.label}</span>
+                </a>
+                {email && <CopyButton text={email} label="이메일 주소 복사" />}
+              </li>
+            );
+          })}
         </ul>
 
         <a href="#prologue" className={styles.encore}>
