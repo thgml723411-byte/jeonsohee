@@ -24,9 +24,10 @@ export interface Profile {
 }
 
 export interface SkillGroup {
-  category: string;
-  note: string;
+  area: string;
+  title: string;
   items: string[];
+  details: string[];
 }
 
 export interface Work {

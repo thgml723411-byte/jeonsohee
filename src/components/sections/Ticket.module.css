@@ -279,7 +279,9 @@
   margin: 0;
   font-family: var(--font-display), serif;
   font-style: italic;
-  font-size: 0.7rem;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  word-break: keep-all;
   color: var(--color-on-light-muted);
 }
 

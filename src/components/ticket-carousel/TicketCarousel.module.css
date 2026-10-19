@@ -82,7 +82,6 @@
 .selector button > span:first-child { color: var(--color-accent); font-family: var(--font-display), serif; font-style: italic; font-size: 0.8rem; }
 .selector button[aria-current="true"] { border-color: var(--color-accent); background: var(--color-panel); color: var(--color-foreground); }
 .hint { margin-top: 16px; text-align: center; font-size: 0.7rem; color: var(--color-muted); line-height: 1.8; }
-.close { position: absolute; z-index: 2; right: 16px; top: 16px; padding: 8px 16px; border: 1px solid var(--color-line); border-radius: 999px; background: var(--color-background-alt); color: var(--color-foreground); font: inherit; font-size: 0.8rem; cursor: pointer; }
 
 @media (max-width: 760px) {
   .carousel { --ticket-width: min(340px, calc(100vw - 64px)); --radius: 240px; }

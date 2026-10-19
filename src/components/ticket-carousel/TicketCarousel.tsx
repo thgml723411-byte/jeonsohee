@@ -7,7 +7,7 @@ import styles from "./TicketCarousel.module.css";
 
 const TAU = Math.PI * 2;
 
-export default function TicketCarousel({ works }: { works: Work[] }) {
+export default function TicketCarousel({ works, onSelectedChange }: { works: Work[]; onSelectedChange?: (index: number) => void }) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLOListElement>(null);
   const [selected, setSelected] = useState(0);
@@ -83,6 +83,10 @@ export default function TicketCarousel({ works }: { works: Work[] }) {
       reduced.removeEventListener("change", onMotionChange);
     };
   }, [works.length]);
+
+  useEffect(() => {
+    onSelectedChange?.(selected);
+  }, [selected, onSelectedChange]);
 
   const goTo = useCallback((index: number) => {
     const state = motion.current;
@@ -191,14 +195,14 @@ export default function TicketCarousel({ works }: { works: Work[] }) {
               onClick={(event) => {
                 if ((event.target as HTMLElement).closest("button, a") || motion.current.moved) return;
                 if (index !== motion.current.front) goTo(index);
-                else if (!motion.current.expanded) openTicket();
+                else if (motion.current.expanded) closeTicket();
+                else openTicket();
               }}
             >
               <Ticket work={work} interactive={selected === index} />
             </li>
           ))}
         </ol>
-        {expanded && <button type="button" className={styles.close} onClick={closeTicket} aria-label="티켓 확대 닫기">닫기 ×</button>}
       </div>
       <div className={styles.toolbar}>
         <button type="button" className={styles.arrow} onClick={() => goTo(motion.current.front - 1)} aria-label="이전 티켓">←</button>

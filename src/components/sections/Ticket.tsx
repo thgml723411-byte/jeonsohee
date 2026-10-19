@@ -109,7 +109,7 @@ export default function Ticket({ work, interactive = true }: { work: Work; inter
               ))}
             </ul>
             <div className={styles.actions}>
-              <p className={styles.hint}>{!work.href ? "배포 준비 중" : torn ? "입장권 확인 완료" : "← 절취선을 뜯어보세요"}</p>
+              <p className={styles.hint}>{!work.href ? "배포 준비 중" : torn ? "입장권 확인 완료" : "← 절취선 뜯어서 입장하세요"}</p>
               <button type="button" className={styles.flip} onClick={() => setFlipped(true)}>
                 상세 보기 ↻
               </button>
