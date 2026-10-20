@@ -45,7 +45,7 @@ export default function UsherChat() {
     } catch {
       setMessages([...next, {
         role: "assistant",
-        content: "죄송해요, 관객님. 지금은 안내 데스크 연결이 원활하지 않아요. 잠시 후 다시 물어봐 주세요.",
+        content: "죄송해요, 관객 여러분. 지금은 안내 데스크 연결이 원활하지 않아요. 잠시 후 다시 물어봐 주세요.",
       }]);
     } finally {
       setLoading(false);
