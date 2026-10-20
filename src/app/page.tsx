@@ -6,6 +6,7 @@ import Profile from "@/components/sections/Profile";
 import Skills from "@/components/sections/Skills";
 import Works from "@/components/sections/Works";
 import Contact from "@/components/sections/Contact";
+import UsherChat from "@/components/usher-chat/UsherChat";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Works />
         <Contact />
       </main>
+      <UsherChat />
     </>
   );
 }

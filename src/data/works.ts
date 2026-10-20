@@ -79,19 +79,4 @@ export const works: Work[] = [
     ],
     href: "https://lcode-2.vercel.app/",
   },
-  {
-    no: 6,
-    title: "React AI Study · 학습 챗봇",
-    period: "2026.10",
-    category: "AI Learning",
-    description: "AI 개념 설명과 퀴즈, 힌트, 이용 안내 챗봇을 제공하는 React 학습 서비스.",
-    tags: ["Next.js", "TypeScript", "OpenAI", "Sass", "OpenWeather API"],
-    features: [
-      "React 개념 설명 · AI 퀴즈 · 힌트 제공",
-      "학습 안내 문서 검색 기반 이용 안내 챗봇",
-      "Next.js Route Handler에서 OpenAI 호출",
-      "OpenWeather API로 지역별 날씨 확인",
-    ],
-    href: "https://chatbot-bay-eight-31.vercel.app/",
-  },
 ];
