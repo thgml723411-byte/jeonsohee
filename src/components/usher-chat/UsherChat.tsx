@@ -15,6 +15,8 @@ export default function UsherChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [streaming, setStreaming] = useState(false);
+  const busy = loading || streaming;
   const logRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -28,20 +30,32 @@ export default function UsherChat() {
 
   const ask = async (question: string) => {
     const text = question.trim();
-    if (!text || loading) return;
+    if (!text || busy) return;
     const next: ChatMessage[] = [...messages, { role: "user", content: text }];
     setMessages(next);
     setInput("");
     setLoading(true);
+    setStreaming(true);
     try {
       const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: next }),
       });
-      const data = (await response.json()) as { answer?: string };
-      if (!response.ok || !data.answer) throw new Error();
-      setMessages([...next, { role: "assistant", content: data.answer }]);
+      if (!response.ok || !response.body) throw new Error();
+
+      // 서버가 보내는 글자를 받는 대로 말풍선에 이어 붙인다.
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let answer = "";
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        answer += decoder.decode(value, { stream: true });
+        setLoading(false);
+        setMessages([...next, { role: "assistant", content: answer }]);
+      }
+      if (!answer.trim()) throw new Error();
     } catch {
       setMessages([...next, {
         role: "assistant",
@@ -49,7 +63,14 @@ export default function UsherChat() {
       }]);
     } finally {
       setLoading(false);
+      setStreaming(false);
     }
+  };
+
+  const reset = () => {
+    setMessages([]);
+    setInput("");
+    inputRef.current?.focus();
   };
 
   const submit = (event: FormEvent) => {
@@ -71,7 +92,14 @@ export default function UsherChat() {
               <p className={styles.eyebrow}>Information Desk</p>
               <h2 className={styles.title}>공연 안내원</h2>
             </div>
-            <button type="button" className={styles.close} onClick={() => setOpen(false)} aria-label="안내 데스크 닫기">×</button>
+            <div className={styles.headerActions}>
+              {messages.length > 0 && (
+                <button type="button" className={styles.reset} onClick={reset} disabled={busy}>
+                  ↺ 처음으로
+                </button>
+              )}
+              <button type="button" className={styles.close} onClick={() => setOpen(false)} aria-label="안내 데스크 닫기">×</button>
+            </div>
           </header>
 
           <div ref={logRef} className={styles.log} aria-live="polite">
@@ -95,6 +123,17 @@ export default function UsherChat() {
             )}
           </div>
 
+          {/* 대화 중에도 추천 질문을 언제든 다시 고를 수 있게 입력창 위에 둔다. */}
+          {messages.length > 0 && (
+            <ul className={styles.quick} aria-label="추천 질문 다시 보기">
+              {usherSuggestions.map((suggestion) => (
+                <li key={suggestion}>
+                  <button type="button" onClick={() => ask(suggestion)} disabled={busy}>{suggestion}</button>
+                </li>
+              ))}
+            </ul>
+          )}
+
           <form className={styles.form} onSubmit={submit}>
             <input
               ref={inputRef}
@@ -104,7 +143,7 @@ export default function UsherChat() {
               placeholder="안내원에게 물어보세요"
               aria-label="질문 입력"
             />
-            <button type="submit" disabled={!input.trim() || loading}>보내기</button>
+            <button type="submit" disabled={!input.trim() || busy}>보내기</button>
           </form>
         </section>
       )}
