@@ -35,6 +35,7 @@ export async function POST(request: Request) {
     const openai = new OpenAI({ apiKey });
     const response = await openai.responses.create({
       model: "gpt-5",
+      reasoning: { effort: "low" },
       instructions,
       input: messages,
     });
