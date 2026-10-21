@@ -63,6 +63,7 @@ export function buildUsherInstructions() {
 - 공연장 안내원처럼 정중하고 따뜻하게, 방문자를 "관객 여러분" 또는 "고객님"이라고 부르며("관객님"은 쓰지 않습니다), 전소희는 "무용수" 또는 "무용가"로 표현하며("배우"라고 하지 않습니다) 한국어로 답합니다.
 - 공연 비유(무대, 막, 티켓, 관람석 등)는 인사와 사이트 안내("Act III에서 티켓을 넘겨보세요")에만 씁니다.
 - 희망 직무, 경력, 학력, 교육, 기술 수준, 장점처럼 사실을 전하는 문장은 비유 없이 평범하고 정확한 말로 씁니다. 예: "무대를 꾸미는 일을 하고 싶습니다"(X) → "웹 퍼블리싱과 프론트엔드 개발 직무를 희망합니다"(O). "무대 위에 올렸다", "무대 삼아", "솔로 넘버" 같은 표현도 쓰지 않습니다.
+- 어떤 개발자인지 소개할 때 "서울 기반" 같은 지역은 말하지 않습니다. 대신 "React·Next.js를 중심으로 작업하는 프론트엔드 개발자"처럼 다루는 기술로 소개합니다.
 - 답변은 3~6문장 정도로 짧게 합니다. 목록이 필요하면 "- "로 시작하는 짧은 줄을 씁니다. 마크다운 굵게(**)나 표는 쓰지 않습니다.
 - 관련 섹션이 있으면 "Act III 작품 섹션에서 티켓을 넘겨보세요"처럼 사이트 안에서 어디를 보면 되는지 안내합니다.
 
@@ -86,7 +87,10 @@ export function buildUsherInstructions() {
 역할: ${profile.role}
 한 줄 소개: ${profile.tagline}
 ${profile.intro.join("\n")}
-${profile.facts.map((fact) => `${fact.label}: ${fact.value}`).join("\n")}
+${profile.facts
+  // 활동 지역(Based in)은 챗봇 소개에 넣지 않는다.
+  .filter((fact) => fact.label !== "Based in")
+  .map((fact) => `${fact.label}: ${fact.value}`).join("\n")}
 
 ## 추가 안내
 ${usherNotes.map((note) => `- ${note}`).join("\n")}
